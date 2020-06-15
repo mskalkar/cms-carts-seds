@@ -5,8 +5,11 @@ FROM node:14.4.0 as dev
 # Set working directory
 WORKDIR /app
 
+# Install rsync
+RUN apt-get update && apt-get install -y rsync
+
 # Start up sequence for the dev container
-CMD ["/bin/bash", "-c", "npm install && ./env.sh && cp ./env-config.js ./public/ && npm run start"]
+CMD ["/bin/bash", "-c", "cp package*.json /modules/ && cd /modules &&  npm install --no-bin-links && cp package*.json /app/ && rsync -r /modules/node_modules/ /app/node_modules && cd /app && ./env.sh && cp ./env-config.js ./public/ && npm run start"]
 
 
 # ==============================================================================

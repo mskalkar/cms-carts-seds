@@ -16,7 +16,7 @@ services:
     stdin_open: true
     volumes:
       - ./react:/app
-      - /app/node_modules
+      - /modules
   api:
     image: api:dev
     build:

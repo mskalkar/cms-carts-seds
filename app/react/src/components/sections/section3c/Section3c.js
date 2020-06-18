@@ -19,7 +19,6 @@ class Section3c extends Component {
     this.loadAnswers = this.loadAnswers.bind(this);
     this.setConditional = this.setConditional.bind(this);
     this.selectInput = this.selectInput.bind(this);
-    this.setConditionalFromToggle = this.setConditionalFromToggle.bind(this);
 
     this.state = {
       p1_q1: "no",
@@ -56,12 +55,6 @@ class Section3c extends Component {
     // el.target.defaultChecked = true;
   }
 
-  setConditionalFromToggle(name, value) {
-    this.setState({
-      name: value,
-    });
-  }
-
   selectInput(id, option, active) {
     let selection = document.getElementById(id).getElementsByTagName("input");
     if (active) {
@@ -95,24 +88,16 @@ class Section3c extends Component {
 
     switch (el.target.name) {
       case "p1_q1":
+        let toggleStatus = isActive ? "yes" : "no";
+
         this.selectInput(el.target.name, 0, isActive);
         this.setState({
-          p1_q1: "yes",
+          p1_q1: toggleStatus,
           p1_q1__b: textAreaCopy,
           p1_q1__c: textAreaCopy,
         });
 
         // Show/hide conditionals
-        this.setConditionalFromToggle(el.target.name, isActive);
-
-        // Show/hide conditionals
-        this.setConditionalFromToggle(el.target.name, isActive);
-
-        this.setState({
-          p1_q1: "yes",
-          p1_q1__b: textAreaCopy,
-          p1_q1__c: textAreaCopy,
-        });
 
         break;
       case "p1_q2":

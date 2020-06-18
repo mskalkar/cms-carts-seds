@@ -9,7 +9,6 @@ import {
 } from "@cmsgov/design-system-core";
 import Sidebar from "../../layout/Sidebar";
 import PageInfo from "../../layout/PageInfo";
-import NavigationButton from "../../layout/NavigationButtons";
 
 class Section3c extends Component {
   constructor() {
@@ -18,11 +17,12 @@ class Section3c extends Component {
     this.loadAnswers = this.loadAnswers.bind(this);
     this.setConditional = this.setConditional.bind(this);
     this.selectInput = this.selectInput.bind(this);
+    this.setConditionalFromToggle = this.setConditionalFromToggle.bind(this);
 
     this.state = {
-      p1_q1: true,
+      p1_q1: "no",
       p1_q1__a: "",
-      p1_q1__a_1: true,
+      p1_q1__a_1: "",
       p1_q1__a_2: "",
       p1_q1__b: "",
       p1_q2__a: "",
@@ -44,19 +44,20 @@ class Section3c extends Component {
   }
 
   setConditional(el) {
-    let radio = document.getElementById("radio_p1_q1_36");
-    let textField = document.getElementById("textfield_41");
+    this.setState({
+      [el.target.name]: el.target.value,
+    });
+    el.target.defaultChecked = true;
+  }
 
-    if (radio.checked) {
-      textField.parentNode.parentNode.classList.remove("hide");
-    } else {
-      textField.parentNode.parentNode.classList.add("hide");
-    }
+  setConditionalFromToggle(name, value) {
+    this.setState({
+      name: value,
+    });
   }
 
   selectInput(id, option, active) {
     let selection = document.getElementById(id).getElementsByTagName("input");
-
     if (active) {
       selection[option].checked = true;
     } else {
@@ -69,13 +70,14 @@ class Section3c extends Component {
   loadAnswers(el) {
     el.preventDefault();
 
+    // button title: Undo or Same as Last year
     el.target.title = this.state.fillFormTitle;
 
     el.target.classList.toggle("active");
     let textFieldCopy = "";
     let textAreaCopy = "";
 
-    // Set values on active
+    // Boolean, Set values on active
     let isActive = el.target.classList.contains("active");
 
     if (isActive) {
@@ -88,17 +90,25 @@ class Section3c extends Component {
     switch (el.target.name) {
       case "p1_q1":
         this.selectInput(el.target.name, 0, isActive);
+        this.setState({
+          p1_q1: "yes",
+          p1_q1__b: textAreaCopy,
+          p1_q1__c: textAreaCopy,
+        });
 
-        this.setState({ p1_q1__b: textAreaCopy });
-        this.setState({ p1_q1__c: textAreaCopy });
+        // Show/hide conditionals
+        this.setConditionalFromToggle(el.target.name, isActive);
+
         break;
       case "p1_q2":
         this.selectInput("p1_q2__a", 0, isActive);
         this.selectInput("p1_q2__b", 1, isActive);
 
-        this.setState({ p1_q2__c: textAreaCopy });
-        this.setState({ p1_q2__d: textAreaCopy });
-        this.setState({ p1_q2__e: textAreaCopy });
+        this.setState({
+          p1_q2__c: textAreaCopy,
+          p1_q2__d: textAreaCopy,
+          p1_q2__e: textAreaCopy,
+        });
         break;
       case "p1_q3":
         this.setState({ p1_q3: textAreaCopy });
@@ -171,10 +181,12 @@ class Section3c extends Component {
                                 {
                                   label: "Yes",
                                   value: "yes",
+                                  // defaultChecked: this.state.,
                                 },
                                 {
                                   label: "No",
                                   value: "no",
+                                  // defaultChecked: false,
                                 },
                               ]}
                               className="p1_q1"
@@ -183,23 +195,27 @@ class Section3c extends Component {
                               onChange={this.setConditional}
                               hint="Note: This question may not apply to Medicaid Expansion states."
                             />
-                          </div>
-                          <div className="conditional hide">
-                            <TextField
-                              label="What percentage of children are presumptively enrolled in CHIP pending a full eligibility determination?"
-                              multiline
-                              name="p1_q1__b"
-                              rows="6"
-                              value={this.state.p1_q1__b}
-                            />
-                            <TextField
-                              hint="Maximum 7,500 characters"
-                              label="Of those children who are presumptively enrolled, what percentage are determined fully eligible and enrolled in the program?"
-                              multiline
-                              name="p1_q1__c"
-                              rows="6"
-                              value={this.state.p1_q1__c}
-                            />
+                            {this.state.p1_q1 === "yes" ? (
+                              <div className="conditional">
+                                <TextField
+                                  label="What percentage of children are presumptively enrolled in CHIP pending a full eligibility determination?"
+                                  multiline
+                                  name="p1_q1__b"
+                                  rows="6"
+                                  value={this.state.p1_q1__b}
+                                />
+                                <TextField
+                                  hint="Maximum 7,500 characters"
+                                  label="Of those children who are presumptively enrolled, what percentage are determined fully eligible and enrolled in the program?"
+                                  multiline
+                                  name="p1_q1__c"
+                                  rows="6"
+                                  value={this.state.p1_q1__c}
+                                />
+                              </div>
+                            ) : (
+                              ""
+                            )}
                           </div>
                         </div>
                       </div>
@@ -679,12 +695,6 @@ class Section3c extends Component {
                     </form>
                   </TabPanel>
                 </Tabs>
-              </div>
-
-              <div className="nav-buttons">
-                <NavigationButton direction="Previous" destination="/2b" />
-
-                <NavigationButton direction="Next" destination="#" />
               </div>
             </div>
           </div>

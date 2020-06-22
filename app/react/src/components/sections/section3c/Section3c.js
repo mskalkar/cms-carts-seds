@@ -18,7 +18,7 @@ class Section3c extends Component {
   constructor() {
     super();
 
-    // this.loadAnswers = this.loadAnswers.bind(this);
+    this.loadLastYearsAnswers = this.loadLastYearsAnswers.bind(this);
     // this.setConditional = this.setConditional.bind(this);
     this.userSelection = this.userSelection.bind(this);
     // this.selectInput = this.selectInput.bind(this);
@@ -31,13 +31,24 @@ class Section3c extends Component {
       // p1_q1__a_2: "",
 
       p1_q1__a_dropdown: false,
+      p1_q1__a: "",
+      p1_q1__a_PREV: "GOOSE",
+      PREV_p1_q1__a: "",
+
       p1_q1__b: "",
       PREV_p1_q1__b: "",
+      p1_q1__b_PREV: "GOOSE",
+
       p1_q1__c: "",
+      p1_q1__c_PREV: "GOOSE",
       PREV_p1_q1__c: "",
+
       p1_q1__d: "",
+      p1_q1__d_PREV: "GOOSE",
       PREV_p1_q1__d: "",
+
       p1_q1__e: "",
+      p1_q1__e_PREV: "GOOSE",
       PREV_p1_q1__e: "",
 
       p1_q2__a: "",
@@ -59,11 +70,12 @@ class Section3c extends Component {
     };
   }
 
-  // easiest when its an array of strings (array includes)
-  // but i need each element to contain another piece of information
+  // button has p1_q1
+  // want to update   PREV_p1_q1__b, p1_q1__c, p1_q1__d
 
-  // array of objects? [{p1:yes}, {p2:no}]
-  // object {p1:yes, p2:no}
+  //1 loop through and edit anything starting with p1_q1 to be their 'PREV' value
+  // 2 give each section a grouping
+  // let GROUPp1_q1 = [p1_q1__a, p1_q2__b, p1_q2__c, p1_q2__d, p1_q2__e]
 
   componentDidMount() {
     // before the component loads, provide the state with each question's previous data
@@ -81,19 +93,12 @@ class Section3c extends Component {
 
     // if this is a question with a dropdown, set the dropdown boolean
     // also set the value of the user's selection
-    console.log("NAME??", el.target.name);
-
-    console.log("VALUE??", el.target.value);
-
     if (dropDowns.includes(el.target.name)) {
       let dropDownCondition = this.state.questionsWithDropDownConditionals[
         el.target.name
       ];
       let booleanSelection =
         el.target.value === dropDownCondition ? true : false;
-
-      // give this specific question's dropdown the appropriate boolean
-      // set the value of this selection
       this.setState({
         [`${el.target.name}_dropdown`]: booleanSelection,
         [el.target.name]: el.target.value,
@@ -142,16 +147,38 @@ class Section3c extends Component {
   // }
 
   loadLastYearsAnswers(button) {
-    //   // update p1_q1 conditional *
-    //   // update values on state to be read by all text fields
-    //   // update values on state to be read by choice list
+    // update p1_q1 conditional *
+    // update values on state to be read by all text fields
+    // update values on state to be read by choice list
 
+    let previousAnswerGroups = {
+      p1_q1: ["p1_q1__a", "p1_q1__b", "p1_q1__c", "p1_q1__d", "p1_q1__e"],
+    };
+    // console.log("WHAT BUTTON WAS CLICKED?", button.target.name);
+    let selectedGroup = previousAnswerGroups[button.target.name];
+    // console.log("WHO AM I FILLING IN??", selectedGroup);
+
+    // loop through this group and set their state values to be their PREV values
+    let updateObject = {};
+    for (let i = 0; i <= selectedGroup.length - 1; i++) {
+      let questionElement = selectedGroup[i];
+      let copyValue = this.state[`${questionElement}_PREV`];
+      updateObject[questionElement] = copyValue;
+
+      // console.log("CORRECT STRING??", ` this.state.PREV_${questionElement}`);
+    }
+    this.setState(updateObject);
+
+    // console.log("EXPECTED", this.state.PREV_p1_q1__b);
+    console.log("SHOW ME WHATS GOING ON STATE", updateObject);
     // we're getting three props
     // name (p1_q1)
     // title (undo, fill from last year)
     // onclick (loadAnswers)
 
-    this.setState({});
+    // this.setState({
+    //   p1_q1__b: PREV_p1_q1__b,
+    // });
   }
 
   render() {
@@ -177,7 +204,7 @@ class Section3c extends Component {
                           <FillForm
                             name="p1_q1"
                             title={this.state.fillFormTitle}
-                            onClick={this.loadAnswers}
+                            onClick={this.loadLastYearsAnswers}
                           />
                           <div className="question">
                             1. Do you have authority in your CHIP state plan to
@@ -210,6 +237,7 @@ class Section3c extends Component {
                                   name="p1_q1__b"
                                   rows="6"
                                   value={this.state.p1_q1__b}
+                                  onChange={this.userSelection}
                                 />
                                 <TextField
                                   hint="Maximum 7,500 characters"
@@ -218,6 +246,7 @@ class Section3c extends Component {
                                   name="p1_q1__c"
                                   rows="6"
                                   value={this.state.p1_q1__c}
+                                  onChange={this.userSelection}
                                 />
                               </div>
                             ) : (

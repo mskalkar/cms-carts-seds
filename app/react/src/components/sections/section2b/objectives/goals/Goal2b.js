@@ -85,11 +85,19 @@ class Goal extends Component {
 
         <div className="question-container">
           <ChoiceList
-            choices={[
-              { label: "New goal", value: "new" },
-              { label: "Continuing goal", value: "continuing" },
-              { label: "Discontinued goal", value: "discontinued" },
-            ]}
+            choices={
+              this.props.previousEntry === "true"
+                ? [
+                    { label: "New goal", value: "new" },
+                    { label: "Continuing goal", value: "continuing" },
+                    { label: "Discontinued goal", value: "discontinued" },
+                  ]
+                : [
+                    { label: "New goal", value: "new" },
+                    { label: "Continuing goal", value: "continuing" },
+                    { label: "Discontinued goal", value: "discontinued" },
+                  ]
+            }
             label="What type of goal is it?"
             name="goal_type"
           />

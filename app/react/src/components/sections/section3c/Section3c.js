@@ -101,7 +101,7 @@ class Section3c extends Component {
     // if this is a question with a dropdown, set the dropdown boolean
     // also set the value of the user's selection
     if (dropDowns.includes(el.target.name)) {
-      console.log("DID WE MAKE IT IN?", (someNum += 1));
+      console.log("DING DONG");
       let dropDownCondition = this.state.questionsWithDropDownConditionals[
         el.target.name
       ];
@@ -218,7 +218,7 @@ class Section3c extends Component {
             .getElementsByTagName("input");
 
           for (let input of choiceListOptions) {
-            input.checked = false;
+            input.checked = null;
           }
         }
       }

@@ -11,8 +11,7 @@ import Sidebar from "../../layout/Sidebar";
 import PageInfo from "../../layout/PageInfo";
 import FillForm from "../../layout/FillForm";
 import NavigationButton from "../../layout/NavigationButtons";
-
-let dummyData = "someString";
+import { textAreaCopy, textFieldCopy } from "../../Utils/formDummyData";
 
 class Section3c extends Component {
   constructor() {
@@ -31,25 +30,21 @@ class Section3c extends Component {
       // p1_q1__a_2: "",
 
       p1_q1__a_dropdown: false,
+      p1_q1__a_dropdown_PREV: false,
       p1_q1__a: "",
-      p1_q1__a_PREV: "GOOSE",
-      PREV_p1_q1__a: "",
+      p1_q1__a_PREV: [],
 
       p1_q1__b: "",
-      PREV_p1_q1__b: "",
-      p1_q1__b_PREV: "GOOSE",
+      p1_q1__b_PREV: [],
 
       p1_q1__c: "",
-      p1_q1__c_PREV: "GOOSE",
-      PREV_p1_q1__c: "",
+      p1_q1__c_PREV: [],
 
       p1_q1__d: "",
-      p1_q1__d_PREV: "GOOSE",
-      PREV_p1_q1__d: "",
+      p1_q1__d_PREV: [],
 
       p1_q1__e: "",
-      p1_q1__e_PREV: "GOOSE",
-      PREV_p1_q1__e: "",
+      p1_q1__e_PREV: [],
 
       p1_q2__a: "",
       p1_q2__b: "",
@@ -79,21 +74,34 @@ class Section3c extends Component {
 
   componentDidMount() {
     // before the component loads, provide the state with each question's previous data
+    // this.setState({
+    //   p1_q1__a_PREV: "yes",
+    //   p1_q1__a_dropdown_PREV: true,
+    //   p1_q1__b_PREV: textAreaCopy,
+    //   p1_q1__c_PREV: textAreaCopy,
+    //   p1_q1__d_PREV: textFieldCopy,
+    //   p1_q1__e_PREV: textFieldCopy,
+    // });
+
     this.setState({
-      PREV_p1_q1__b: dummyData,
-      PREV_p1_q1__c: dummyData,
-      PREV_p1_q1__d: dummyData,
-      PREV_p1_q1__e: dummyData,
+      p1_q1__a_PREV: ["radial", "yes"],
+      p1_q1__a_dropdown_PREV: ["boolean", true],
+      p1_q1__b_PREV: ["text", textAreaCopy],
+      p1_q1__c_PREV: ["text", textAreaCopy],
+      p1_q1__d_PREV: ["text", textFieldCopy],
+      p1_q1__e_PREV: ["text", textFieldCopy],
     });
   }
 
   userSelection(el) {
     // an array of all the questions with a dropdown option
+    let someNum = 0;
     let dropDowns = Object.keys(this.state.questionsWithDropDownConditionals);
 
     // if this is a question with a dropdown, set the dropdown boolean
     // also set the value of the user's selection
     if (dropDowns.includes(el.target.name)) {
+      console.log("DID WE MAKE IT IN?", (someNum += 1));
       let dropDownCondition = this.state.questionsWithDropDownConditionals[
         el.target.name
       ];
@@ -111,40 +119,51 @@ class Section3c extends Component {
     }
     //name: p1_q1__a
     //value: "yes" or "no"
+    // }
+    // set conditional is strictly used to set the state for choice lists,
+    // it takes in the name of the choicelist and gives the state the value of that choicelist
+    // setConditional(el) {
+    //   let booleanValue = el.target.value === "yes" ? true: false
+
+    //   this.setState({
+    //     [el.target.name + "_conditional"]: this.state[
+    //       el.target.name + "_conditional"
+    //     ]
+    //       ? false
+    //       : true,
+    //   })
+    //   // el.target.defaultChecked = true;
+    // }
+
+    // selectInput(id, choice, active) {
+    //   let choiceListOptions = document
+    //     .getElementById(id)
+    //     .getElementsByTagName("input");
+
+    //   if (active) {
+    //     choiceListOptions[choice].checked = true;
+    //   } else {
+    //     for (let input of choiceListOptions) {
+    //       input.checked = false;
+    //     }
+    //   }
+
+    // let toCheck = choiceListOptions
+    //   .map(function (e) {
+    //     return e.value;
+    //   })
+    //   .indexOf(choice);
+
+    // console.log("WHAT IS THIS BEAST", choiceListOptions);
+    // console.log("no clue if this will work", toCheck);
+    // if (active) {
+    //   selection[option].checked = true;
+    // } else {
+    //   for (let input of selection) {
+    //     input.checked = false;
+    //   }
+    // }
   }
-  // set conditional is strictly used to set the state for choice lists,
-  // it takes in the name of the choicelist and gives the state the value of that choicelist
-  // setConditional(el) {
-  //   let booleanValue = el.target.value === "yes" ? true: false
-
-  //   this.setState({
-  //     [el.target.name + "_conditional"]: this.state[
-  //       el.target.name + "_conditional"
-  //     ]
-  //       ? false
-  //       : true,
-  //   })
-  //   // el.target.defaultChecked = true;
-  // }
-
-  // loadAnswers(el) {
-  //   // update p1_q1 conditional *
-  //   // update values on state to be read by all text fields
-  //   // update values on state to be read by choice list
-
-  //   // button title: Undo or Same as Last year
-  //   el.target.title = this.state.fillFormTitle;
-
-  //   // el.target.name = the question name ie: p1_q1
-
-  //   this.setState({
-  //     [el.target.name + "_conditional"]: this.state[
-  //       el.target.name + "_conditional"
-  //     ]
-  //       ? false
-  //       : true,
-  //   });
-  // }
 
   loadLastYearsAnswers(button) {
     // update p1_q1 conditional *
@@ -152,33 +171,76 @@ class Section3c extends Component {
     // update values on state to be read by choice list
 
     let previousAnswerGroups = {
-      p1_q1: ["p1_q1__a", "p1_q1__b", "p1_q1__c", "p1_q1__d", "p1_q1__e"],
+      p1_q1: [
+        "p1_q1__a",
+        "p1_q1__a_dropdown",
+        "p1_q1__b",
+        "p1_q1__c",
+        "p1_q1__d",
+        "p1_q1__e",
+      ],
     };
-    // console.log("WHAT BUTTON WAS CLICKED?", button.target.name);
+
     let selectedGroup = previousAnswerGroups[button.target.name];
+
+    // console.log("WHAT BUTTON WAS CLICKED?", button.target.name);
     // console.log("WHO AM I FILLING IN??", selectedGroup);
 
     // loop through this group and set their state values to be their PREV values
     let updateObject = {};
     for (let i = 0; i <= selectedGroup.length - 1; i++) {
       let questionElement = selectedGroup[i];
-      let copyValue = this.state[`${questionElement}_PREV`];
+      let copyValue;
+      let inputType = this.state[`${questionElement}_PREV`][0];
+      if (this.state.fillFormTitle === "Same as last year") {
+        copyValue = this.state[`${questionElement}_PREV`][1];
+
+        if (inputType === "radial") {
+          // if its a radial, the value cannot be directly set so we'll grab the HTML element
+          let choiceListOptions = document
+            .getElementById(button.target.name)
+            .getElementsByTagName("input");
+
+          for (let input of choiceListOptions) {
+            if (input.value === copyValue) {
+              input.checked = true;
+            }
+          }
+        }
+      } else {
+        // On Undo
+        copyValue = "";
+
+        if (inputType === "radial") {
+          // if its a radial, the value cannot be directly set so we'll grab the HTML element
+          let choiceListOptions = document
+            .getElementById(button.target.name)
+            .getElementsByTagName("input");
+
+          for (let input of choiceListOptions) {
+            input.checked = false;
+          }
+        }
+      }
+
       updateObject[questionElement] = copyValue;
+      // we're getting three props
+      // name (p1_q1)
+      // title (undo, fill from last year)
+      // onclick (loadAnswers)
 
-      // console.log("CORRECT STRING??", ` this.state.PREV_${questionElement}`);
+      // this.setState({
+      //   p1_q1__b: PREV_p1_q1__b,
+      //  p1_q1__b: ""
+      // });
     }
-    this.setState(updateObject);
-
-    // console.log("EXPECTED", this.state.PREV_p1_q1__b);
     console.log("SHOW ME WHATS GOING ON STATE", updateObject);
-    // we're getting three props
-    // name (p1_q1)
-    // title (undo, fill from last year)
-    // onclick (loadAnswers)
 
-    // this.setState({
-    //   p1_q1__b: PREV_p1_q1__b,
-    // });
+    this.setState(updateObject);
+    this.setState({
+      fillFormTitle:
+        this.state.fillFormTitle === "Undo" ? "Same as last year" : "Undo",
+    });
   }
 
   render() {
@@ -217,6 +279,10 @@ class Section3c extends Component {
                                 {
                                   label: "Yes",
                                   value: "yes",
+                                  defaultChecked:
+                                    this.state.p1_q1__a === "yes"
+                                      ? true
+                                      : false,
                                 },
                                 {
                                   label: "No",

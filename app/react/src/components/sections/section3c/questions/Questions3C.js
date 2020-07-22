@@ -13,7 +13,7 @@ class Questions3C extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      p1_q1: "no",
+      p1_q1: "",
       p1_q1__a: "",
       p1_q1__a_1: "",
       p1_q1__a_2: "",

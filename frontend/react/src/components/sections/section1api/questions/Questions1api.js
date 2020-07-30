@@ -5,7 +5,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import FPL from "../../../layout/FPL";
 import Data from "./../section1data.json";
 import { Choice, ChoiceList, TextField } from "@cmsgov/design-system-core";
-import { CMSChoice } from "../../../fields/CMSChoice";
+import CMSChoice from "../../../fields/CMSChoice";
 
 class Questions1 extends Component {
   constructor(props) {
@@ -222,6 +222,8 @@ class Questions1 extends Component {
   }
 
   render() {
+    // let parsedData = JSON.parse(Data);
+    // console.log("is it even json", typeof Data);
     return (
       <form>
         {this.setProgramDisable}
@@ -232,26 +234,40 @@ class Questions1 extends Component {
           <div>
             <h3>{part.header}</h3>
 
+            {console.log("is it even an array??", typeof part.questions)}
+
             {/* Begin parsing through top level questions */}
             {part.questions.map((question) => (
               <fieldset className="ds-c-fieldset">
                 <legend className="ds-c-label">{question.text}</legend>
-
+                {console.log(
+                  "is it even an array??",
+                  typeof question.answer_values
+                )}
                 {/* If radio button */}
-                {question.answer_type === "multi"
-                  ? question.answer_values.map((value) => (
-                      <div>
-                        <CMSChoice
-                          name={question.id}
-                          value={value}
-                          type="radio"
-                          answer={question.answer}
-                          conditional={question.conditional}
-                          children={question.questions}
-                        />
-                      </div>
-                    ))
-                  : null}
+                {question.answer_type === "multi" ? (
+                  <CMSChoice
+                    multiArr={question.answer_values}
+                    name={question.id}
+                    // value={value}
+                    type="radio"
+                    answer={question.answer}
+                    conditional={question.conditional}
+                    children={question.questions}
+                  />
+                ) : // ? question.answer_values.map((value) => (
+                //     <div>
+                //       <CMSChoice
+                //         name={question.id}
+                //         value={value}
+                //         type="radio"
+                //         answer={question.answer}
+                //         conditional={question.conditional}
+                //         children={question.questions}
+                //       />
+                //     </div>
+                //   ))
+                null}
                 {/* If textarea */}
                 {question.answer_type === "text_long" ? (
                   <div>

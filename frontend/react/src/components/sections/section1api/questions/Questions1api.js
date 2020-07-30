@@ -234,23 +234,19 @@ class Questions1 extends Component {
           <div>
             <h3>{part.header}</h3>
 
-            {console.log("is it even an array??", typeof part.questions)}
-
             {/* Begin parsing through top level questions */}
             {part.questions.map((question) => (
               <fieldset className="ds-c-fieldset">
                 <legend className="ds-c-label">{question.text}</legend>
-                {console.log(
-                  "is it even an array??",
-                  typeof question.answer_values
-                )}
+
                 {/* If radio button */}
                 {question.answer_type === "multi" ? (
                   <CMSChoice
                     multiArr={question.answer_values}
                     name={question.id}
                     // value={value}
-                    type="radio"
+                    // type="radio"
+                    type="multi"
                     answer={question.answer}
                     conditional={question.conditional}
                     children={question.questions}

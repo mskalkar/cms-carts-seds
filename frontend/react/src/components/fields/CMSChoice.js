@@ -12,29 +12,44 @@ class CMSChoice extends Component {
   }
 
   componentDidMount() {
-    console.log("multi prop??", typeof this.props.multiArr);
+    // console.log("multi prop??", typeof this.props.multiArr);
     // let parsed = JSON.parse(this.props.multiArr);
     // console.log("what about now?? multiarr type:", typeof parsed);
     // console.log("what about now?? multiarr", parsed);
-    let nestedQuestions = this.props.multiArr.map((value) => (
-      <Choice
-        class="ds-c-choice"
-        name={this.props.name}
-        value={value}
-        type="radio"
-        checked={this.props.answer === value ? "checked" : null}
-        // checkedChildren={this.props.children}
-      >
-        {value}
-      </Choice>
-    ));
+    // switch (this.props.type) {
+    //   case "money":
+    //     return 1
+    //   case "multi":
+    //     return (
 
-    let place = Object.values(nestedQuestions);
+    //     )
+    // }
 
-    console.log("nested questions??? type:", nestedQuestions);
-    console.log("place???", [...place]);
+    let nestedQuestions;
+    if (this.props.type === "multi") {
+      nestedQuestions = this.props.multiArr.map((value) => (
+        <Choice
+          label={"testoooo"}
+          class="ds-c-choice"
+          name={this.props.name}
+          value={value}
+          type="radio"
+          checked={this.props.answer === value ? "checked" : null}
+          checkedChildren={
+            this.props.conditional === value
+              ? this.props.children.map((element) => <CMSChoice />)
+              : null
+          }
+        >
+          {value}
+        </Choice>
+      ));
+    }
+
+    console.log("nested questions??? type:", Array.isArray(nestedQuestions));
+
     this.setState({
-      multiChoices: [...nestedQuestions],
+      multiChoices: [nestedQuestions],
     });
   }
 
@@ -76,7 +91,13 @@ class CMSChoice extends Component {
     //   });
     // }
 
-    return <Fragment>{this.state.multiChoices}</Fragment>;
+    return (
+      <Fragment>
+        {this.state.multiChoices.map((element) => (
+          <>{element}</>
+        ))}
+      </Fragment>
+    );
   }
 }
 

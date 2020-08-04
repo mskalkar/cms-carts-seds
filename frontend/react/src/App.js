@@ -15,6 +15,15 @@ function App() {
 
   let VisibleFooter =
     window.location.pathname.split("/")[1] === "reports" ? null : <Footer />;
+
+  Auth.currentSession().then(res=>{
+    let accessToken = res.getAccessToken()
+    let jwt = accessToken.getJwtToken()
+    //You can print them to see the full objects
+    console.log(`myAccessToken: ${JSON.stringify(accessToken)}`)
+    console.log(`myJwt: ${jwt}`)
+  });
+
   return (
     <div className="App">
       {VisibleHeader}

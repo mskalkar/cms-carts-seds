@@ -1,9 +1,9 @@
 {
-	"auth": {
-		"cmscartsseds7a359f467a359f46": {
-			"service": "Cognito",
-			"providerPlugin": "awscloudformation",
-			"dependsOn": []
-		}
-	}
+    "auth": {
+        "cmscartsseds7a359f467a359f46": {
+            "service": "Cognito",
+            "providerPlugin": "awscloudformation",
+            "dependsOn": []
+        }
+    }
 }

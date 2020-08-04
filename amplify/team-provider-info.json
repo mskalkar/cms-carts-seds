@@ -13,7 +13,10 @@
         },
         "categories": {
             "auth": {
-                "cmscartsseds7a359f467a359f46": {}
+                "cmscartsseds7a359f467a359f46": {
+                    "facebookAppId": "310769256960934",
+                    "hostedUIProviderCreds": "[{\"ProviderName\":\"Facebook\",\"client_id\":\"310769256960934\",\"client_secret\":\"208d240cb49c6e7a24495bec3b5d8380\"}]"
+                }
             }
         }
     }

@@ -29,7 +29,10 @@ class Section3c extends Component {
             <Tabs>
               <TabPanel id="tab-form" tab={this.state.pageTitle}>
                 <Questions3C previousYear = "false"/>
-                <FormNavigation previousUrl="/section3/3a" />
+                <FormNavigation 
+                  previousUrl="/section3/3a" 
+                  nextUrl="/section3/3d"
+                />
               </TabPanel>
               <TabPanel
                 id="tab-lastyear"

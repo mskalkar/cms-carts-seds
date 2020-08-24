@@ -1,28 +1,10 @@
-//ACTION TYPES
-const STATE_INFO = "STATE_INFO";
-const USER_INFO = "USER_INFO";
-const PROGRAM_INFO = "PROGRAM_INFO";
+import {
+  STATE_INFO,
+  USER_INFO,
+  PROGRAM_INFO,
+} from "../actions/stateUserActions";
 
-//ACTION CREATORS
-export const getUserData = (userObject) => ({
-  type: USER_INFO,
-  userObject: userObject,
-});
-
-export const getProgramData = (programObject) => ({
-  type: PROGRAM_INFO,
-  programType: programObject.programType,
-  programName: programObject.programName,
-  formName: programObject.formName,
-});
-
-export const getStateData = (stateObject) => ({
-  type: STATE_INFO,
-  name: stateObject.name,
-  abbr: stateObject.abbr,
-  imageURI: stateObject.imageURI,
-});
-
+// INITIAL STATE
 const initialState = {
   name: "New York",
   abbr: "NY",
@@ -30,6 +12,7 @@ const initialState = {
   programName: "NY Combo Program",
   imageURI: `${process.env.PUBLIC_URL + "/img/states/ny.svg"}`,
   formName: "CARTS FY",
+  formYear: new Date().getFullYear().toString(),
   currentUser: {
     role: "admin",
     state: { id: "NY", name: "New York" },

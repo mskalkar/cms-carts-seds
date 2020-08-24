@@ -2040,7 +2040,7 @@ class Section1Review extends Component {
 const mapStateToProps = (state) => ({
   name: state.stateUser.name,
   programType: state.stateUser.programType,
-  year: state.global.formYear,
+  year: state.stateUser.formYear,
 });
 
 export default connect(mapStateToProps)(Section1Review);

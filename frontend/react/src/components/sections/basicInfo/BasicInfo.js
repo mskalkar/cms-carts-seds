@@ -3,10 +3,7 @@ import { connect } from "react-redux";
 import PageInfo from "../../layout/PageInfo";
 import FormNavigation from "../../layout/FormNavigation";
 import FormActions from "../../layout/FormActions";
-import {
-  Tabs,
-  TabPanel
-} from "@cmsgov/design-system-core";
+import { Tabs, TabPanel } from "@cmsgov/design-system-core";
 import FillForm from "../../layout/FillForm";
 import QuestionsBasicInfo from "./questions/QuestionsBasicInfo";
 
@@ -34,7 +31,7 @@ class BasicInfo extends Component {
           <div className="section-content">
             <Tabs>
               <TabPanel id="tab-form" tab="Basic Information">
-                <QuestionsBasicInfo previousYear="false"/>
+                <QuestionsBasicInfo previousYear="false" />
                 <FormNavigation nextUrl="/section1" />
               </TabPanel>
 
@@ -43,7 +40,7 @@ class BasicInfo extends Component {
                 tab={`FY${this.props.year - 1} answers`}
               >
                 <div disabled>
-                  <QuestionsBasicInfo previousYear="true"/>
+                  <QuestionsBasicInfo previousYear="true" />
                 </div>
               </TabPanel>
             </Tabs>
@@ -57,7 +54,7 @@ class BasicInfo extends Component {
 
 const mapStateToProps = (state) => ({
   abbr: state.stateUser.currentUser.state.id,
-  year: state.global.formYear,
+  year: state.stateUser.formYear,
   programType: state.stateUser.programType,
   programName: state.stateUser.programName,
 });

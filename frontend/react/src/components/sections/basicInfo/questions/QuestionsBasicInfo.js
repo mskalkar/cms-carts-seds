@@ -1,23 +1,19 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import {
-    Accordion,
-    AccordionItem,
-    AccordionButton,
-    AccordionPanel,
-  } from "@reach/accordion";
-  import {
-    TextField,
-    Dropdown,
-    Choice,
-  } from "@cmsgov/design-system-core";
-  import statesArray from "../../../Utils/statesArray";
-  import FillForm from "../../../layout/FillForm";
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+} from "@reach/accordion";
+import { TextField, Dropdown, Choice } from "@cmsgov/design-system-core";
+import statesArray from "../../../Utils/statesArray";
+import FillForm from "../../../layout/FillForm";
 
 const validEmailRegex = RegExp(
   /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i
 );
-  
+
 const validTelephoneRegex = RegExp(
   /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/
 );
@@ -47,11 +43,11 @@ class QuestionsBasicInfo extends Component {
         phone: "",
       },
       previousYear: this.props.previousYear,
-      fillFormTitle: "Same as last year"
+      fillFormTitle: "Same as last year",
     };
 
-    this.handleChange = this.handleChange.bind(this)
-    this.loadAnswers = this.loadAnswers.bind(this)
+    this.handleChange = this.handleChange.bind(this);
+    this.loadAnswers = this.loadAnswers.bind(this);
   }
 
   handleChange(evt) {
@@ -90,29 +86,31 @@ class QuestionsBasicInfo extends Component {
 
     const elementName = el.target.name;
     //This dynamically updates the element with last years response. Need to figure out a way to get all sub elements
-    if (el.target.type === "textField")
-    {
-        var newstate = {}; 
-        newstate[el.target.id] = el.target.id; 
-        if(el.target.title === "Undo")
-        {
-            
-            this.setState({ [el.target.name]: this.state[el.target.name + 'temp']})
-            el.target.title = "Active";
-        }
-        else{
-            this.setState({ [el.target.name + 'temp']: this.state[el.target.name] })
-            this.setState({ [el.target.name]: this.state['previous_'+el.target.name] })
-            el.target.title = "Undo";
-        }
-        
-        this.setState(newstate);
-    }  
+    if (el.target.type === "textField") {
+      var newstate = {};
+      newstate[el.target.id] = el.target.id;
+      if (el.target.title === "Undo") {
+        this.setState({
+          [el.target.name]: this.state[el.target.name + "temp"],
+        });
+        el.target.title = "Active";
+      } else {
+        this.setState({
+          [el.target.name + "temp"]: this.state[el.target.name],
+        });
+        this.setState({
+          [el.target.name]: this.state["previous_" + el.target.name],
+        });
+        el.target.title = "Undo";
+      }
+
+      this.setState(newstate);
+    }
   }
 
   render() {
-      return(
-        <form>
+    return (
+      <form>
         <h3>Welcome!</h3>
         <Dropdown
           label="1. State or territory name: "
@@ -124,31 +122,52 @@ class QuestionsBasicInfo extends Component {
           disabled
         />
 
-        <Choice 
-          name="programType" 
-          type="radio" 
+        <Choice
+          name="programType"
+          type="radio"
           value="yes"
-          defaultChecked={this.props.previousYear === "true" && this.state.previous_programType === "comboCHIP" ? true : this.state.programType === "comboCHIP" ? true : false}
+          defaultChecked={
+            this.props.previousYear === "true" &&
+            this.state.previous_programType === "comboCHIP"
+              ? true
+              : this.state.programType === "comboCHIP"
+              ? true
+              : false
+          }
           onChange={this.setConditional}
           disabled
         >
           Combination state (M-CHIP and S-CHIP)
         </Choice>
-        <Choice 
-          name="programType" 
-          type="radio" 
+        <Choice
+          name="programType"
+          type="radio"
           value="no"
-          defaultChecked={this.props.previousYear === "true" && this.state.prevous_programType$ === "mCHIP" ? true : this.state.programType === "mCHIP" ? true : false}
+          defaultChecked={
+            this.props.previousYear === "true" &&
+            this.state.prevous_programType$ === "mCHIP"
+              ? true
+              : this.state.programType === "mCHIP"
+              ? true
+              : false
+          }
           onChange={this.setConditional}
           disabled
         >
           CHIP Medicaid Expansion only (M-CHIP)
         </Choice>
-        <Choice 
-          name="programType" 
-          type="radio" 
+        <Choice
+          name="programType"
+          type="radio"
           value="no"
-          defaultChecked={this.props.previousYear === "true" && this.state.previous_programType === "sCHIP" ? true : this.state.programType === "sCHIP" ? true : false}
+          defaultChecked={
+            this.props.previousYear === "true" &&
+            this.state.previous_programType === "sCHIP"
+              ? true
+              : this.state.programType === "sCHIP"
+              ? true
+              : false
+          }
           onChange={this.setConditional}
           disabled
         >
@@ -158,69 +177,84 @@ class QuestionsBasicInfo extends Component {
         <TextField
           label="3. CHIP program name(s): "
           name="programName"
-          value= {this.state.previousYear === "false" ? this.state.programName : this.state.previous_programName}
+          value={
+            this.state.previousYear === "false"
+              ? this.state.programName
+              : this.state.previous_programName
+          }
           onChange={this.handleChange}
           disabled
         />
 
         <div>
           <a href="mailto:cartshelp@cms.hhs.gov">
-            If any of the above information is incorrect, contact
-            CARTS Help Desk.
+            If any of the above information is incorrect, contact CARTS Help
+            Desk.
           </a>{" "}
         </div>
 
         <div>
           <h3>
-            Who should we contact if we have any questions about your
-            report?
+            Who should we contact if we have any questions about your report?
           </h3>
           <div className="question-container">
-          {this.props.previousYear === "false" &&
-            <FillForm
-              name="contactName"
-              title={this.state.fillFormTitle}
-              onClick={this.loadAnswers}
-              type="textField"
-            />
-          }
+            {this.props.previousYear === "false" && (
+              <FillForm
+                name="contactName"
+                title={this.state.fillFormTitle}
+                onClick={this.loadAnswers}
+                type="textField"
+              />
+            )}
             <TextField
               label="4. Contact name: "
               name="contactName"
-              value= {this.state.previousYear === "false" ? this.state.contactName : this.state.previous_contactName}
+              value={
+                this.state.previousYear === "false"
+                  ? this.state.contactName
+                  : this.state.previous_contactName
+              }
               onChange={this.handleChange}
             />
           </div>
           <div className="question-container">
-          {this.props.previousYear === "false" &&
-            <FillForm
-              name="contactTitle"
-              title={this.state.fillFormTitle}
-              onClick={this.loadAnswers}
-              type="textField"
-            />
-          }
+            {this.props.previousYear === "false" && (
+              <FillForm
+                name="contactTitle"
+                title={this.state.fillFormTitle}
+                onClick={this.loadAnswers}
+                type="textField"
+              />
+            )}
             <TextField
               label="5. Job title: "
               name="contactTitle"
-              value= {this.state.previousYear === "false" ? this.state.contactTitle : this.state.previous_contactTitle}
+              value={
+                this.state.previousYear === "false"
+                  ? this.state.contactTitle
+                  : this.state.previous_contactTitle
+              }
               onChange={this.handleChange}
             />
           </div>
           <div className="question-container">
-          {this.props.previousYear === "false" &&
-            <FillForm
-              name="contactEmail"
-              title={this.state.fillFormTitle}
-              onClick={this.loadAnswers}
-              type="textField"
-            />
-          }
+            {this.props.previousYear === "false" && (
+              <FillForm
+                name="contactEmail"
+                title={this.state.fillFormTitle}
+                onClick={this.loadAnswers}
+                type="textField"
+              />
+            )}
             <TextField
               type="email"
               label="6. Email: "
               name="contactEmail"
-              value= {this.state.previousYear === "false" ? this.state.contactEmail : this.state.previous_contactEmail}
+              value={
+                this.state.previousYear === "false"
+                  ? this.state.contactEmail
+                  : this.state.previous_contactEmail
+              }
               onChange={this.handleChange}
             />
             {this.state.errors.email.length > 0 && (
@@ -228,40 +262,48 @@ class QuestionsBasicInfo extends Component {
             )}
           </div>
           <div className="question-container">
-          {this.props.previousYear === "false" &&
-            <FillForm
-              name="contactAddress"
-              title={this.state.fillFormTitle}
-              onClick={this.loadAnswers}
-              type="textField"
-            />
-          }
+            {this.props.previousYear === "false" && (
+              <FillForm
+                name="contactAddress"
+                title={this.state.fillFormTitle}
+                onClick={this.loadAnswers}
+                type="textField"
+              />
+            )}
             <TextField
               label="7. Full mailing address: "
               hint="Include city, state and zip code"
               name="contactAddress"
               multiline
               rows="4"
-              value= {this.state.previousYear === "false" ? this.state.contactAddress : this.state.previous_contactAddress}
+              value={
+                this.state.previousYear === "false"
+                  ? this.state.contactAddress
+                  : this.state.previous_contactAddress
+              }
               onChange={this.handleChange}
             />
           </div>
           <div className="question-container">
-          {this.props.previousYear === "false" &&
-            <FillForm
-              name="contactPhone"
-              title={this.state.fillFormTitle}
-              onClick={this.loadAnswers}
-              type="textField"
-            />
-          }
+            {this.props.previousYear === "false" && (
+              <FillForm
+                name="contactPhone"
+                title={this.state.fillFormTitle}
+                onClick={this.loadAnswers}
+                type="textField"
+              />
+            )}
             <TextField
               type="tel"
               pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
               label="8. Phone number: "
               name="contactPhone"
               mask="phone"
-              value= {this.state.previousYear === "false" ? this.state.contactPhone : this.state.previous_contactPhone}
+              value={
+                this.state.previousYear === "false"
+                  ? this.state.contactPhone
+                  : this.state.previous_contactPhone
+              }
               onChange={this.handleChange}
             />
             {this.state.errors.phone.length > 0 && (
@@ -270,13 +312,13 @@ class QuestionsBasicInfo extends Component {
           </div>
         </div>
       </form>
-          )
+    );
   }
 }
 
 const mapStateToProps = (state) => ({
   abbr: state.stateUser.currentUser.state.id,
-  year: state.global.formYear,
+  year: state.stateUser.formYear,
   programType: state.stateUser.programType,
   programName: state.stateUser.programName,
 });

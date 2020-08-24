@@ -81,9 +81,7 @@ class Section3a extends Component {
                 className="section3a-previous"
                 tab={`FY${this.props.year - 1} answers`}
               >
-                <div disabled>
-                  {this.state.previousYearQuestions3AProp}
-                </div>
+                <div disabled>{this.state.previousYearQuestions3AProp}</div>
               </TabPanel>
             </Tabs>
             <FormActions />
@@ -96,7 +94,7 @@ class Section3a extends Component {
 
 const mapStateToProps = (state) => ({
   name: state.stateUser.name,
-  year: state.global.formYear,
+  year: state.stateUser.formYear,
 });
 
 export default connect(mapStateToProps)(Section3a);

@@ -306,8 +306,7 @@ class Goals2BReview extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  year: state.global.formYear,
-  tallTextField: state.global.largeTextBoxHeight,
+  year: state.stateUser.formYear,
 });
 
 export default connect(mapStateToProps)(Goals2BReview);

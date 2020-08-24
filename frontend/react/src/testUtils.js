@@ -43,6 +43,5 @@ export const mockInitialState = {
   global: {
     formName: "CARTS FY",
     formYear: new Date().getFullYear().toString(),
-    largeTextBoxHeight: 6,
   },
 };

@@ -18,7 +18,7 @@ class Goal extends Component {
       selectedFiles: [],
       p1_q1_answer: null,
       p1_q2_answer: "",
-      previousEntry:this.props.previousEntry,
+      previousEntry: this.props.previousEntry,
     };
     this.addDivisors = this.addDivisors.bind(this);
     this.percentageCalculator = this.percentageCalculator.bind(this);
@@ -110,7 +110,7 @@ class Goal extends Component {
             label="1. Briefly describe your goal"
             hint="For example: Enroll 75% of eligible children in the CHIP program."
             multiline
-            rows={this.props.tallTextField}
+            rows={6}
             name="goal_description"
             value={
               this.props.previousEntry === "true"
@@ -174,7 +174,7 @@ class Goal extends Component {
                 label="3. Which population are you measuring in the numerator?"
                 hint="For example: The number of children enrolled in CHIP in the last federal fiscal year."
                 multiline
-                rows={this.props.tallTextField}
+                rows={6}
                 name="goal_numerator_definition"
                 value={
                   this.props.previousEntry === "true"
@@ -204,7 +204,7 @@ class Goal extends Component {
                 label="5. Which population are you measuring in the denominator? "
                 hint="For example: The total number of eligible children in the last federal fiscal year."
                 multiline
-                rows={this.props.tallTextField}
+                rows={6}
                 name="goal_denominator_definition"
                 value={
                   this.props.previousEntry === "true"
@@ -293,33 +293,44 @@ class Goal extends Component {
             </div>
 
             <div className="question-container">
-              <Choice 
+              <Choice
                 name={`data_source${this.props.goalId}`}
-                type="radio" 
+                type="radio"
                 label="8. Which data source did you use?"
                 value="enrollment_data"
-                defaultChecked={this.props.previousEntry === "true" ? (this.state.ly_p4_q$ === "yes" ? true : false) : false}
+                defaultChecked={
+                  this.props.previousEntry === "true"
+                    ? this.state.ly_p4_q$ === "yes"
+                      ? true
+                      : false
+                    : false
+                }
                 onChange={this.setConditional}
-                >
-                  Eligibility or enrollment data
-                </Choice>
-                <Choice 
+              >
+                Eligibility or enrollment data
+              </Choice>
+              <Choice
                 name={`data_source${this.props.goalId}`}
-                type="radio" 
+                type="radio"
                 value="survey_data"
-                defaultChecked={this.props.previousEntry === "true" ? (this.state.ly_p4_q$ === "yes" ? true : false) : false}
+                defaultChecked={
+                  this.props.previousEntry === "true"
+                    ? this.state.ly_p4_q$ === "yes"
+                      ? true
+                      : false
+                    : false
+                }
                 onChange={this.setConditional}
-                >
-                  Survey data
-                </Choice>
-                
+              >
+                Survey data
+              </Choice>
             </div>
 
             <div className="question-container">
               <TextField
                 label="9. How did your progress towards your goal last year compare to your previous year’s progress?"
                 multiline
-                rows={this.props.tallTextField}
+                rows={6}
                 name="progress_comparison"
                 className="ds-u-margin-top--0"
                 value={
@@ -334,7 +345,7 @@ class Goal extends Component {
               <TextField
                 label="10. What are you doing to continually make progress towards your goal?"
                 multiline
-                rows={this.props.tallTextField}
+                rows={6}
                 name="progress_action"
                 className="ds-u-margin-top--0"
                 value={
@@ -394,8 +405,7 @@ class Goal extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  year: state.global.formYear,
-  tallTextField: state.global.largeTextBoxHeight,
+  year: state.stateUser.formYear,
 });
 
 export default connect(mapStateToProps)(Goal);

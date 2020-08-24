@@ -4,13 +4,10 @@ import PageInfo from "../../layout/PageInfo";
 import FormNavigation from "../../layout/FormNavigation";
 import FormActions from "../../layout/FormActions";
 import { selectSectionByOrdinal } from "../../../store/formData";
-import {
-  Tabs,
-  TabPanel
-} from "@cmsgov/design-system-core";
+import { Tabs, TabPanel } from "@cmsgov/design-system-core";
 import QuestionsBasicInfo from "./questions/QuestionsBasicInfo";
 
-const BasicInfo = ({Data}) =>
+const BasicInfo = ({ Data }) =>
   Data ? (
     <div className="section-basic-info ds-l-col--9 content">
       <div className="main">
@@ -18,7 +15,7 @@ const BasicInfo = ({Data}) =>
         <div className="section-content">
           <Tabs>
             <TabPanel id="tab-form" tab={Data.section.title}>
-              <QuestionsBasicInfo previousYear="false"/>
+              <QuestionsBasicInfo previousYear="false" />
               <FormNavigation nextUrl="/section1" />
             </TabPanel>
 
@@ -27,7 +24,7 @@ const BasicInfo = ({Data}) =>
               tab={`FY${Data.section.year - 1} answers`}
             >
               <div disabled>
-                <QuestionsBasicInfo previousYear="true"/>
+                <QuestionsBasicInfo previousYear="true" />
               </div>
             </TabPanel>
           </Tabs>
@@ -36,17 +33,15 @@ const BasicInfo = ({Data}) =>
       </div>
     </div>
   ) : null;
-  
-
 
 const mapStateToProps = (state) => {
   return {
     abbr: state.stateUser.currentUser.state.id,
     Data: selectSectionByOrdinal(state, 0),
-    year: state.global.formYear,
+    year: state.stateUser.formYear,
     programType: state.stateUser.programType,
     programName: state.stateUser.programName,
-  }
+  };
 };
 
 export default connect(mapStateToProps)(BasicInfo);

@@ -6,18 +6,15 @@ import FormNavigation from "../../layout/FormNavigation";
 import FormActions from "../../layout/FormActions";
 import Data from "./backend-json-section-3.json";
 
-import {
-  Tabs,
-  TabPanel,
-} from "@cmsgov/design-system-core";
+import { Tabs, TabPanel } from "@cmsgov/design-system-core";
 
 const sectionData = Data.section.subsections[3];
 
 class Section3dapi extends Component {
- constructor(props) {
-  super(props);
-  this.state = {};
- }
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
   render() {
     return (
@@ -63,7 +60,7 @@ class Section3dapi extends Component {
 const mapStateToProps = (state) => ({
   name: state.stateUser.name,
   programType: state.stateUser.programType,
-  year: state.global.formYear,
+  year: state.stateUser.formYear,
 });
 
 export default connect(mapStateToProps)(Section3dapi);

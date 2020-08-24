@@ -35,9 +35,9 @@ class Section3AApi extends Component {
             <Tabs>
               <TabPanel id="tab-form" tab={sectionData.title}>
                 <Questions3AApi previousEntry="false" />
-                <FormNavigation 
+                <FormNavigation
                   nextUrl="/section3/3c"
-                  previousUrl="/section2/2b" 
+                  previousUrl="/section2/2b"
                 />
               </TabPanel>
 
@@ -64,7 +64,7 @@ class Section3AApi extends Component {
 
 const mapStateToProps = (state) => ({
   name: state.stateUser.name,
-  year: state.global.formYear,
+  year: state.stateUser.formYear,
   programType: state.stateUser.programType,
 });
 

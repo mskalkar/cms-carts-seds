@@ -170,7 +170,7 @@ class Objective2b extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  year: state.global.formYear,
+  year: state.stateUser.formYear,
 });
 
 export default connect(mapStateToProps)(Objective2b);

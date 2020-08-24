@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  Tabs,
-  TabPanel,
-} from "@cmsgov/design-system-core";
+import { Tabs, TabPanel } from "@cmsgov/design-system-core";
 import PageInfo from "../../layout/PageInfo";
 import FormNavigation from "../../layout/FormNavigation";
 import FormActions from "../../layout/FormActions";
@@ -28,7 +25,7 @@ class Section3c extends Component {
           <div className="section-content">
             <Tabs>
               <TabPanel id="tab-form" tab={this.state.pageTitle}>
-                <Questions3C previousYear = "false"/>
+                <Questions3C previousYear="false" />
                 <FormNavigation previousUrl="/section3/3a" />
               </TabPanel>
               <TabPanel
@@ -41,7 +38,7 @@ class Section3c extends Component {
                   <h3>{this.state.pageTitle}</h3>
                 </div>
                 <div disabled>
-                  <Questions3C previousYear="true"/>
+                  <Questions3C previousYear="true" />
                 </div>
                 <FormNavigation previousUrl="/section3/3a" />
               </TabPanel>
@@ -55,7 +52,7 @@ class Section3c extends Component {
 }
 const mapStateToProps = (state) => ({
   name: state.stateUser.name,
-  year: state.global.formYear,
+  year: state.stateUser.formYear,
 });
 
 export default connect(mapStateToProps)(Section3c);

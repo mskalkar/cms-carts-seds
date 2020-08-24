@@ -507,34 +507,47 @@ class Section2a extends Component {
                           your state?
                         </div>
                         <div id="p2_q2">
-                          <Choice 
-                          name="p2_q2" 
-                          type="radio" 
-                          value="yes"
-                          defaultChecked={this.props.previousEntry === "true" ? (this.state.ly_p2_q2 === "yes" ? true : false) : false}
-                          onChange={this.setConditional}
-                          checkedChildren={
-                            <div className="ds-c-choice__checkedChild">{
-                              <TextField
-                              label="a) What are some reasons why the American Community Survey estimates might not be accurate?"
-                              multiline
-                              name="p2_q2__a"
-                              rows="6"
-                              value={this.state.p2_q2__a}
-                              onChange={this.handleChange}
-                              />
+                          <Choice
+                            name="p2_q2"
+                            type="radio"
+                            value="yes"
+                            defaultChecked={
+                              this.props.previousEntry === "true"
+                                ? this.state.ly_p2_q2 === "yes"
+                                  ? true
+                                  : false
+                                : false
                             }
-                            </div>
+                            onChange={this.setConditional}
+                            checkedChildren={
+                              <div className="ds-c-choice__checkedChild">
+                                {
+                                  <TextField
+                                    label="a) What are some reasons why the American Community Survey estimates might not be accurate?"
+                                    multiline
+                                    name="p2_q2__a"
+                                    rows="6"
+                                    value={this.state.p2_q2__a}
+                                    onChange={this.handleChange}
+                                  />
+                                }
+                              </div>
                             }
                           >
                             Yes
                           </Choice>
-                          <Choice 
-                          name="p2_q2" 
-                          type="radio" 
-                          value="no"
-                          defaultChecked={this.props.previousEntry === "true" ? (this.state.ly_p2_q2 === "no" ? true : false) : false}
-                          onChange={this.setConditional}
+                          <Choice
+                            name="p2_q2"
+                            type="radio"
+                            value="no"
+                            defaultChecked={
+                              this.props.previousEntry === "true"
+                                ? this.state.ly_p2_q2 === "no"
+                                  ? true
+                                  : false
+                                : false
+                            }
+                            onChange={this.setConditional}
                           >
                             No
                           </Choice>
@@ -548,14 +561,20 @@ class Section2a extends Component {
                           uninsured children in your state?
                         </div>
                         <div id="p2_q3">
-                        <Choice 
-                          name="p2_q3" 
-                          type="radio" 
-                          value="yes"
-                          defaultChecked={this.props.previousEntry === "true" ? (this.state.ly_p2_q3 === "yes" ? true : false) : false}
-                          onChange={this.setConditional}
-                          checkedChildren={
-                            <div className="ds-c-choice__checkedChild">
+                          <Choice
+                            name="p2_q3"
+                            type="radio"
+                            value="yes"
+                            defaultChecked={
+                              this.props.previousEntry === "true"
+                                ? this.state.ly_p2_q3 === "yes"
+                                  ? true
+                                  : false
+                                : false
+                            }
+                            onChange={this.setConditional}
+                            checkedChildren={
+                              <div className="ds-c-choice__checkedChild">
                                 <TextField
                                   label="a) What is the alternate data source or methodology?"
                                   multiline
@@ -621,17 +640,23 @@ class Section2a extends Component {
                                   value={this.state.p2_q3__h}
                                   onChange={this.handleChange}
                                 />
-                            </div>
-                          }
+                              </div>
+                            }
                           >
                             Yes
                           </Choice>
-                          <Choice 
-                          name="p2_q3" 
-                          type="radio" 
-                          value="no"
-                          defaultChecked={this.props.previousEntry === "true" ? (this.state.ly_p2_q3 === "no" ? true : false) : false}
-                          onChange={this.setConditional}
+                          <Choice
+                            name="p2_q3"
+                            type="radio"
+                            value="no"
+                            defaultChecked={
+                              this.props.previousEntry === "true"
+                                ? this.state.ly_p2_q3 === "no"
+                                  ? true
+                                  : false
+                                : false
+                            }
+                            onChange={this.setConditional}
                           >
                             No
                           </Choice>
@@ -674,7 +699,7 @@ class Section2a extends Component {
 const mapStateToProps = (state) => ({
   name: state.stateUser.name,
   formName: state.stateUser.formName,
-  formYear: state.global.formYear,
+  year: state.stateUser.formYear,
 });
 
 export default connect(mapStateToProps)(Section2a);

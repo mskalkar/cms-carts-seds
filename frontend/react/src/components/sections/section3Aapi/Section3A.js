@@ -14,26 +14,29 @@ import FormNavigation from "../../layout/FormNavigation";
 import FormActions from "../../layout/FormNavigation";
 import Questions3AApi from "./questions/Questions3AApi";
 
-//JSON data starts on line 1071,
-// it is an element in the subsections array
-const sectionData = Data.section.subsections[1];
+import { selectSectionByOrdinal } from "../../../store/selectors/selectSection";
 
 class Section3AApi extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
+
   render() {
-    return (
+    const subsectionData = this.props.Data
+      ? this.props.Data.section.subsections[0] // 3A
+      : null;
+
+    return subsectionData ? (
       <div className="section-1 ds-l-col--9 content">
         <div className="main">
           <PageInfo />
           <div className="print-only">
-            <h3>{sectionData.title}</h3>
+            <h3>{subsectionData.title}</h3>
           </div>
           <div className="section-content">
             <Tabs>
-              <TabPanel id="tab-form" tab={sectionData.title}>
+              <TabPanel id="tab-form" tab={subsectionData.title}>
                 <Questions3AApi previousEntry="false" />
                 <FormNavigation
                   nextUrl="/section3/3c"
@@ -47,7 +50,7 @@ class Section3AApi extends Component {
               >
                 <div className="print-only ly_header">
                   <PageInfo />
-                  <h3>{sectionData.title}</h3>
+                  <h3>{subsectionData.title}</h3>
                 </div>
                 <div disabled>
                   <Questions3AApi previousEntry="true" />
@@ -58,11 +61,12 @@ class Section3AApi extends Component {
           </div>
         </div>
       </div>
-    );
+    ) : null;
   }
 }
 
 const mapStateToProps = (state) => ({
+  Data: selectSectionByOrdinal(state, 3),
   name: state.stateUser.name,
   year: state.stateUser.formYear,
   programType: state.stateUser.programType,

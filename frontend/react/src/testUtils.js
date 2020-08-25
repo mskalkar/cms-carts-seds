@@ -34,14 +34,11 @@ export const mockInitialState = {
     programName: "NY Combo Program",
     imageURI: `${process.env.PUBLIC_URL + "/img/states/ny.svg"}`,
     formName: "CARTS FY",
+    formYear: new Date().getFullYear().toString(),
     currentUser: {
       role: "admin",
       state: { id: "NY", name: "New York" },
       username: "karen.dalton@state.gov",
     },
-  },
-  global: {
-    formName: "CARTS FY",
-    formYear: new Date().getFullYear().toString(),
   },
 };

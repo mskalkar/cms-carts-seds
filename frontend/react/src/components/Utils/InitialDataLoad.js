@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { loadSections } from "../../actions/initial";
+import { loadSections } from "../../store/actions/initial";
 
 const InitialDataLoad = () => {
   const dispatch = useDispatch();

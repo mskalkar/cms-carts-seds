@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import PageInfo from "../../layout/PageInfo";
 import FormNavigation from "../../layout/FormNavigation";
 import FormActions from "../../layout/FormActions";
-import { selectSectionByOrdinal } from "../../../store/formData";
+import { selectSectionByOrdinal } from "../../../store/selectors/selectSection";
 import { Tabs, TabPanel } from "@cmsgov/design-system-core";
 import QuestionsBasicInfo from "./questions/QuestionsBasicInfo";
 

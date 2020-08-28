@@ -42,6 +42,7 @@ api_patterns = [
          views.sectionbase_by_year_section_subsection),
     path("generic-questions/<slug:id>",
          views.generic_fragment_by_id),
+    path("years/<str:state>", views.years_by_state_v1)
 ]
 
 urlpatterns = [

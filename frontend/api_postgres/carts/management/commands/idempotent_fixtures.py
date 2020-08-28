@@ -1,6 +1,6 @@
 from django.core import management  # type: ignore
 from django.core.management.base import BaseCommand  # type: ignore
-from carts.carts_api.models import Section, SectionBase, SectionSchema
+from carts.carts_api.models import Section, SectionBase, SectionSchema, Year
 from json import loads
 import jsonschema  # type: ignore
 from pathlib import Path
@@ -20,7 +20,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         fd = Path("fixtures")
-        globs = ("backend-j*.json", "2020-*.json")
+        globs = ("backend-j*.json", "2020-*.json", "year.json")
         paths = []
         for glob in globs:
             paths = paths + [_ for _ in fd.glob(glob)]
@@ -88,6 +88,15 @@ class Command(BaseCommand):
                     validating = True
                 except jsonschema.exceptions.ValidationError:
                     print(path, "failed validation")
+            elif fixture["model"] == "carts_api.year":
+                validating = True
+                try:
+                    existing = Year.objects.all()
+                    if overwrite:
+                        existing.delete()
+                        is_new = True
+                except Year.DoesNotExist:
+                    is_new = True
             else:
                 print("No match on model")
             if validating and is_new:

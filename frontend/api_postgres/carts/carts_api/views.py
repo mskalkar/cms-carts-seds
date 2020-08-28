@@ -23,11 +23,13 @@ from carts.carts_api.serializers import (
     SectionSerializer,
     SectionBaseSerializer,
     SectionSchemaSerializer,
+    YearSerializer
 )
 from carts.carts_api.models import (
     Section,
     SectionBase,
     SectionSchema,
+    Year,
 )
 
 
@@ -78,6 +80,16 @@ class SectionViewSet(viewsets.ModelViewSet):
                                        context={"request": request})
         return Response(serializer.data)
 
+@api_view(["GET"])
+def years_by_state_v1(request, state):
+    try:
+        data = Year.objects.filter(state=state.upper())
+    
+    except Year.DoesNotExist:
+        return HttpResponse(status=404)
+    
+    if request.method == 'GET':
+        return Response(YearSerializer(data, many=True).data)
 
 @api_view(["GET"])
 def sections_by_year_and_state(request, year, state):

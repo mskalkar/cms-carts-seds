@@ -1,0 +1,25 @@
+[
+  {
+    "model": "carts_api.year",
+    "fields": { "state": "AZ", "status": "", "year": "2020" }
+  },
+  { "model": "carts_api.year", "fields": { "state": "AZ", "year": "2019" } },
+  { "model": "carts_api.year", "fields": { "state": "AZ", "year": "2018" } },
+  { "model": "carts_api.year", "fields": { "state": "AZ", "year": "2017" } },
+
+  {
+    "model": "carts_api.year",
+    "fields": { "state": "AK", "status": "", "year": "2020" }
+  },
+  { "model": "carts_api.year", "fields": { "state": "AK", "year": "2019" } },
+  { "model": "carts_api.year", "fields": { "state": "AK", "year": "2018" } },
+  { "model": "carts_api.year", "fields": { "state": "AK", "year": "2017" } },
+
+  {
+    "model": "carts_api.year",
+    "fields": { "state": "MA", "status": "", "year": "2020" }
+  },
+  { "model": "carts_api.year", "fields": { "state": "MA", "year": "2019" } },
+  { "model": "carts_api.year", "fields": { "state": "MA", "year": "2018" } },
+  { "model": "carts_api.year", "fields": { "state": "MA", "year": "2017" } }
+]

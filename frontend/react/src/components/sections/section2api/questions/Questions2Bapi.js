@@ -15,6 +15,7 @@ import {
   AccordionButton,
   AccordionPanel,
 } from "@reach/accordion";
+import QuestionComponent from "../../../fields/QuestionComponent";
 
 class Questions2BApi extends Component {
   constructor(props) {
@@ -31,7 +32,6 @@ class Questions2BApi extends Component {
   }
   // Get state program (temporary; will be set by API)
   newObjective() {
-    console.log("adding new objective");
     let newObjectiveId = this.state.objectiveCount + 1;
     this.setState({
       objectiveCount: newObjectiveId,
@@ -91,13 +91,20 @@ class Questions2BApi extends Component {
                                             <div className="accordion-title">
                                               {console.log("objectives")}
                                               Objective:{" "}
-                                              {
-                                                objectiveGoals.answer
-                                                  .default_entry
-                                              }
+                                              {objectiveGoals.answer
+                                                .default_entry
+                                                ? objectiveGoals.answer
+                                                    .default_entry
+                                                : null}
                                             </div>
                                             <div className="arrow"></div>
                                           </AccordionButton>
+                                          {objectiveGoals.answer
+                                            .default_entry ? null : (
+                                            <QuestionComponent
+                                              data={[objectiveGoals]}
+                                            />
+                                          )}
                                         </h3>
                                       </div>
                                     ) : (

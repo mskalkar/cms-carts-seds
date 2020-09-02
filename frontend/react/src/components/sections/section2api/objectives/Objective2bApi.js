@@ -16,7 +16,7 @@ import FPL from "../../../layout/FPL";
 import CMSChoice from "../../../fields/CMSChoice";
 import CMSLegend from "../../../fields/CMSLegend";
 import Questions2Bapi from "../questions/Questions2Bapi";
-import { addNewGoal } from "../ObjectiveAndGoals"
+import { addNewGoal } from "../ObjectiveAndGoals";
 import QuestionComponent from "../../../fields/QuestionComponent";
 
 class Objective2bApi extends Component {
@@ -25,7 +25,7 @@ class Objective2bApi extends Component {
     this.state = {
       previousEntry: this.props.previousEntry,
       goalsArray: this.props.goalsArray,
-      goalCount: this.props.goalsArray.length
+      goalCount: this.props.goalsArray.length,
     };
     this.newGoal = this.newGoal.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -36,8 +36,6 @@ class Objective2bApi extends Component {
       [evt[0]]: evt[1],
     });
   }
-
-
 
   newGoal() {
     let newGoalId = this.state.goalCount + 1;
@@ -50,12 +48,11 @@ class Objective2bApi extends Component {
 
   render() {
     return (
-      <Fragment>
-
+      <>
+        {console.log("start objective 2b")}
         <div className="objective-body">
           <div className="goals">
-            {
-            /**
+            {/**
              * Maps through array of Previous Goals in state
              * If the props include previousEntry==="true", render previous year's data
              */}
@@ -68,24 +65,26 @@ class Objective2bApi extends Component {
                         <AccordionButton>
                           <div className="accordion-title">
                             Goal {goals.id.substring(goals.id.length - 2)}:
-                            </div>
+                          </div>
                         </AccordionButton>
                       </h3>
                     </div>
-                    {
-                      goals.questions.map((question) => (
-                        <>
-                          {question.type !== "fieldset" ? (
-                            <AccordionPanel>
-                              <div className="singleGoal">
-                                <div className="question">
-                                  <fieldset className="ds-c-fieldset">
-                                    {parseInt(goals.id.substring(goals.id.length - 2))}.
-                                    {question.type === "radio" || question.type === "checkbox"
-                                      ? Object.entries(question.answer.options).map((
-                                        key,
-                                        index
-                                      ) => {
+                    {goals.questions.map((question) => (
+                      <>
+                        {question.type !== "fieldset" ? (
+                          <AccordionPanel>
+                            <div className="singleGoal">
+                              <div className="question">
+                                <fieldset className="ds-c-fieldset">
+                                  {parseInt(
+                                    goals.id.substring(goals.id.length - 2)
+                                  )}
+                                  .
+                                  {question.type === "radio" ||
+                                  question.type === "checkbox"
+                                    ? Object.entries(
+                                        question.answer.options
+                                      ).map((key, index) => {
                                         return (
                                           <CMSChoice
                                             name={question.id}
@@ -96,68 +95,71 @@ class Objective2bApi extends Component {
                                             answer={question.answer.entry}
                                             conditional={question.conditional}
                                             children={question.questions}
-                                            valueFromParent={this.state[question.id]}
+                                            valueFromParent={
+                                              this.state[question.id]
+                                            }
                                           />
                                         );
                                       })
-                                      : null}
-                                    {/* If textarea */}
-                                    {question.type === "text_long" || question.type === "text_multiline" ? (
-                                      <div>
-                                        <textarea
-                                          class="ds-c-field"
-                                          name={question.id}
-                                          value={question.answer.entry}
-                                          type="text"
-                                          name={question.id}
-                                          rows="6"
-                                        />
-                                      </div>
-                                    ) : null}
-                                    {/* If FPL Range */}
-                                    {question.type === "ranges" ? (
-                                      <div>
-                                        <FPL label={question.label} />
-                                      </div>
-                                    ) : null}
-                                  </fieldset>
-                                </div>
+                                    : null}
+                                  {/* If textarea */}
+                                  {question.type === "text_long" ||
+                                  question.type === "text_multiline" ? (
+                                    <div>
+                                      <textarea
+                                        class="ds-c-field"
+                                        name={question.id}
+                                        value={question.answer.entry}
+                                        type="text"
+                                        name={question.id}
+                                        rows="6"
+                                      />
+                                    </div>
+                                  ) : null}
+                                  {/* If FPL Range */}
+                                  {question.type === "ranges" ? (
+                                    <div>
+                                      <FPL label={question.label} />
+                                    </div>
+                                  ) : null}
+                                </fieldset>
                               </div>
-                            </AccordionPanel>) : null}
-                        </>
-                      ))
-                    }
+                            </div>
+                          </AccordionPanel>
+                        ) : null}
+                      </>
+                    ))}
                   </AccordionItem>
-
-                )
-                )}
+                ))}
               </Accordion>
             ) : (
-                //  Alternatively,  This maps through the current goals in state
-                <>
-                  <Accordion multiple defaultIndex={0}>
-                    {this.state.goalsArray.map((goals) => (
-                      <AccordionItem key={goals.id} >
-                        <div className="accordion-header">
-                          <h3>
-                            <AccordionButton>
-                              <div className="accordion-title">
-                                Goal {parseInt(goals.id.substring(goals.id.length - 2))}:
+              //  Alternatively,  This maps through the current goals in state
+              <>
+                <Accordion multiple defaultIndex={0}>
+                  {this.state.goalsArray.map((goals) => (
+                    <AccordionItem key={goals.id}>
+                      <div className="accordion-header">
+                        <h3>
+                          {console.log("GoalsLoop")}
+                          <AccordionButton>
+                            <div className="accordion-title">
+                              Goal{" "}
+                              {parseInt(
+                                goals.id.substring(goals.id.length - 2)
+                              )}
+                              :
                             </div>
-                            </AccordionButton>
-                          </h3>
-                        </div>
-                        <AccordionPanel>
-                          <QuestionComponent data={goals.questions}
-                            sectionContext={this.props.sectionContext} />
-                        </AccordionPanel>
-                      </AccordionItem>
-
-                    )
-                    )}
-                  </Accordion>
-                </>
-              )}
+                          </AccordionButton>
+                        </h3>
+                      </div>
+                      <AccordionPanel>
+                        <QuestionComponent data={goals.questions} />
+                      </AccordionPanel>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+              </>
+            )}
           </div>
         </div>
 
@@ -175,12 +177,10 @@ class Objective2bApi extends Component {
             <FontAwesomeIcon icon={faPlus} />
           </button>
         </div>
-      </Fragment >
+      </>
     );
   }
 }
-
-
 
 const mapStateToProps = (state) => ({
   year: state.global.formYear,

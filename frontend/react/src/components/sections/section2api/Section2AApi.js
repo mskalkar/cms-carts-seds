@@ -21,6 +21,7 @@ import {
 
 class Section2AApi extends Component {
   render() {
+    console.log(this.props.Data);
     const subsectionData = this.props.Data
       ? this.props.Data.subsections[0] // 2A JSON Data
       : null;

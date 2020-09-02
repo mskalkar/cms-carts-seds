@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import FPL from "../../../layout/FPL";
-import Data from "../backend-json-section-2.json";
 import { Choice, ChoiceList, TextField } from "@cmsgov/design-system-core";
 import CMSChoice from "../../../fields/CMSChoice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -52,7 +51,8 @@ class Questions2BApi extends Component {
   render() {
     const stateProgram = "medicaid_exp_chip";
     return (
-      <form>
+      <>
+        {console.log("questions2b")}
         <div className="section">
           {
             /* Begin parsing through parts */
@@ -89,7 +89,6 @@ class Questions2BApi extends Component {
                                         <h3>
                                           <AccordionButton>
                                             <div className="accordion-title">
-                                              {console.log("objectives")}
                                               Objective:{" "}
                                               {objectiveGoals.answer
                                                 .default_entry
@@ -110,25 +109,13 @@ class Questions2BApi extends Component {
                                     ) : (
                                       <h3>
                                         <AccordionPanel>
+                                          {console.log("preObjective2b")}
                                           {/*Data.section.subsections[1].parts[0].questions[0].questions[0].questions[1].questions[0].questions*/}
                                           <Objective2bApi
                                             goalsArray={
                                               objectiveGoals.questions
                                             } //gives object that contains array of goals
-                                            previousEntry={
-                                              this.props.previousEntry
-                                            }
-                                            sectionContext={
-                                              this.props.sectionContext
-                                            }
                                           ></Objective2bApi>
-
-                                          <div className="question">
-                                            {objective.id ===
-                                            "2020-02-b-01-01-01"
-                                              ? ""
-                                              : null}
-                                          </div>
                                         </AccordionPanel>
                                       </h3>
                                     )
@@ -159,7 +146,7 @@ class Questions2BApi extends Component {
             ))
           }
         </div>
-      </form>
+      </>
     );
   }
 }

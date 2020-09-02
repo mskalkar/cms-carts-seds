@@ -217,6 +217,10 @@ class QuestionComponent extends Component {
               {question.type === "text_multiline" ||
               question.type === "mailing_address" ? (
                 <div>
+                  {
+                    (console.log("qid", question.id),
+                    console.log("answer", question.answer.entry))
+                  }
                   <TextField
                     label=""
                     className="ds-c-input"
@@ -409,8 +413,8 @@ class QuestionComponent extends Component {
                 <div className="cmsfieldset">
                   {
                     <QuestionComponent
-                      subquestion={true}
                       data={question.questions} //Array of subquestions to map through
+                      setAnswer={this.props.setAnswer}
                     />
                   }
                 </div>

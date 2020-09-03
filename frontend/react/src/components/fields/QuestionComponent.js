@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import CMSChoice from "./CMSChoice";
+import CMSLegend from "./CMSLegend";
 import { TextField, ChoiceList } from "@cmsgov/design-system-core";
 import DateRange from "../layout/DateRange";
 import CMSRanges from "./CMSRanges";
-import CMSLegend from "./CMSLegend";
 import { setAnswerEntry } from "../../actions/initial";
+import { selectQuestionsForPart } from "../../store/selectors";
 
 class QuestionComponent extends Component {
   constructor(props) {
@@ -106,6 +107,7 @@ class QuestionComponent extends Component {
 
   handleChange(evt) {
     this.props.setAnswer(evt.target.name, evt);
+    this.setState({ [evt.target.name]: evt.target.value });
   }
 
   handleChangeArray(evtArray) {
@@ -145,7 +147,29 @@ class QuestionComponent extends Component {
                         valueFromParent={this.state[question.id]}
                         onChange={this.handleChangeArray}
                         setAnswer={this.props.setAnswer}
+                        disabled={question.answer.readonly}
+                        disabledFromParent={question.answer.readonly}
+                      />
+                    );
+                  })
+                : null}
+
+              {question.type === "checkbox"
+                ? Object.entries(question.answer.options).map((key, index) => {
+                    return (
+                      <CMSChoice
+                        name={question.id}
+                        value={key[1]}
+                        label={key[0]}
+                        type={question.type}
+                        answer={question.answer.entry}
+                        conditional={question.conditional}
+                        children={question.questions}
+                        valueFromParent={this.state[question.id]}
+                        onChange={this.handleCheckboxInput}
                         key={index}
+                        setAnswer={this.props.setAnswer}
+                        disabled={question.answer.readonly}
                       />
                     );
                   })
@@ -160,6 +184,7 @@ class QuestionComponent extends Component {
                   type="text"
                   onChange={this.handleChange}
                   label=""
+                  disabled={question.answer.readonly}
                 />
               ) : null}
 
@@ -181,6 +206,7 @@ class QuestionComponent extends Component {
                       ? "Please enter a valid email address"
                       : false
                   }
+                  disabled={question.answer.readonly}
                 />
               ) : null}
 
@@ -190,9 +216,7 @@ class QuestionComponent extends Component {
                   className="ds-c-input"
                   name={question.id}
                   value={question.answer.entry || ""}
-                  type="text"
-                  onChange={this.handleChange}
-                  label=""
+                  disabled={question.answer.readonly}
                 />
               ) : null}
 
@@ -205,10 +229,8 @@ class QuestionComponent extends Component {
                     name={question.id}
                     value={question.answer.entry || null}
                     type="text"
-                    name={question.id}
-                    rows={3}
-                    onChange={this.handleChange}
-                    label=""
+                    value={question.answer.entry || ""}
+                    disabled={question.answer.readonly}
                   />
                 </div>
               ) : null}
@@ -230,6 +252,10 @@ class QuestionComponent extends Component {
                     name={question.id}
                     rows="6"
                     onChange={this.handleChange}
+                    rows={6}
+                    type="text"
+                    value={question.answer.entry || ""}
+                    disabled={question.answer.readonly}
                   />
                 </div>
               ) : null}
@@ -278,7 +304,8 @@ class QuestionComponent extends Component {
                     inputMode="currency"
                     mask="currency"
                     pattern="[0-9]*"
-                    value={question.answer.entry}
+                    value={question.answer.entry || ""}
+                    disabled={question.answer.readonly}
                   />
                 </>
               ) : null}
@@ -306,6 +333,14 @@ class QuestionComponent extends Component {
                       ? this.state[question.id + "Err"]
                       : null
                   }
+                  label=""
+                  mask="phone"
+                  name={question.id}
+                  numeric={true}
+                  onBlur={this.validatePhone}
+                  pattern="[0-9]*"
+                  value={question.answer.entry || ""}
+                  disabled={question.answer.readonly}
                 />
               ) : null}
 
@@ -329,6 +364,12 @@ class QuestionComponent extends Component {
                     }
                     onChange={(this.handleChange, this.validatePercentage)}
                     label=""
+                    name={question.id}
+                    numeric={true}
+                    onChange={this.validatePercentage}
+                    pattern="[0-9]*"
+                    value={question.answer.entry || ""}
+                    disabled={question.answer.readonly}
                   />
                   <>%</>
                 </>
@@ -448,8 +489,12 @@ class QuestionComponent extends Component {
 //TO-DO
 // "checkbox_flag", [kindof like a 'accept terms and conditions' checkbox, just accepts an input]
 
+const mapStateToProps = (state, { data, partId }) => ({
+  data: data || selectQuestionsForPart(state, partId),
+});
+
 const mapDispatchToProps = {
   setAnswer: setAnswerEntry,
 };
 
-export default connect(null, mapDispatchToProps)(QuestionComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(QuestionComponent);

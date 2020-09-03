@@ -109,13 +109,17 @@ class Questions2BApi extends Component {
                                     ) : (
                                       <h3>
                                         <AccordionPanel>
-                                          {console.log("preObjective2b")}
+                                          {console.log(
+                                            "preObjective2b",
+                                            objectiveGoals.questions
+                                          )}
                                           {/*Data.section.subsections[1].parts[0].questions[0].questions[0].questions[1].questions[0].questions*/}
                                           <Objective2bApi
                                             goalsArray={
                                               objectiveGoals.questions
                                             } //gives object that contains array of goals
-                                          ></Objective2bApi>
+                                          />
+                                          {console.log("After objective2b")}
                                         </AccordionPanel>
                                       </h3>
                                     )

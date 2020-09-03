@@ -28,13 +28,6 @@ class Objective2bApi extends Component {
       goalCount: this.props.goalsArray.length,
     };
     this.newGoal = this.newGoal.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  handleChange(evt) {
-    this.setState({
-      [evt[0]]: evt[1],
-    });
   }
 
   newGoal() {
@@ -47,9 +40,9 @@ class Objective2bApi extends Component {
   }
 
   render() {
+    console.log("start objective 2b");
     return (
       <>
-        {console.log("start objective 2b")}
         <div className="objective-body">
           <div className="goals">
             {/**

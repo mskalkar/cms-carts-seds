@@ -46,9 +46,9 @@ class Section2BApi extends Component {
       : null;
 
     const sectionTitle = this.props.Data
-      ? generateSubsectionLabel(subsectionData.id) // Section 3F title
+      ? generateSubsectionLabel(subsectionData.id) // Section 2b title
       : null;
-    console.log("SS", subsectionData);
+    console.log("SubSec", subsectionData);
     return subsectionData ? (
       <div className="section-1 ds-l-col--9 content">
         <div className="main">

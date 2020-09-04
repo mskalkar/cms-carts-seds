@@ -298,7 +298,7 @@
                                 "hint": "For example: Enroll 75% of eligible children in the CHIP program.",
                                 "type": "text_multiline",
                                 "answer": {
-                                  "entry": "null"
+                                  "entry": null
                                 }
                               },
                               {
@@ -461,8 +461,7 @@
                             ]
                           }
                         ]
-                      },
-                      {}
+                      }
                     ]
                   }
                 ]

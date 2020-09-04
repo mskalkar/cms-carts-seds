@@ -156,6 +156,7 @@ class QuestionComponent extends Component {
               <legend className="ds-c-label">
                 <CMSLegend id={question.id} label={question.label} />
               </legend>
+              {console.log("question", question)}
               {question.type === "radio"
                 ? question.answer.options.map(({ label, value }, index) => {
                     return (
@@ -285,7 +286,11 @@ class QuestionComponent extends Component {
               {/* If integer*/}
               {question.type === "integer" ? (
                 <>
-                  {console.log(question.id, question.answer.entry)}
+                  {console.log(
+                    "int id + answer",
+                    question.id,
+                    question.answer.entry
+                  )}
                   <TextField
                     name={question.id}
                     className="ds-c-input"

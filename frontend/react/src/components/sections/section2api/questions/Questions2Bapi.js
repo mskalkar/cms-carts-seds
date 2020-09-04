@@ -52,7 +52,6 @@ class Questions2BApi extends Component {
     const stateProgram = "medicaid_exp_chip";
     return (
       <>
-        {console.log("questions2b")}
         <div className="section">
           {
             /* Begin parsing through parts */
@@ -113,13 +112,11 @@ class Questions2BApi extends Component {
                                             "preObjective2b",
                                             objectiveGoals.questions
                                           )}
-                                          {/*Data.section.subsections[1].parts[0].questions[0].questions[0].questions[1].questions[0].questions*/}
                                           <Objective2bApi
                                             goalsArray={
                                               objectiveGoals.questions
                                             } //gives object that contains array of goals
                                           />
-                                          {console.log("After objective2b")}
                                         </AccordionPanel>
                                       </h3>
                                     )

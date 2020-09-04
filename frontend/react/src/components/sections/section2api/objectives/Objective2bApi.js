@@ -62,66 +62,9 @@ class Objective2bApi extends Component {
                         </AccordionButton>
                       </h3>
                     </div>
-                    {goals.questions.map((question) => (
-                      <>
-                        {question.type !== "fieldset" ? (
-                          <AccordionPanel>
-                            <div className="singleGoal">
-                              <div className="question">
-                                <fieldset className="ds-c-fieldset">
-                                  {parseInt(
-                                    goals.id.substring(goals.id.length - 2)
-                                  )}
-                                  .
-                                  {question.type === "radio" ||
-                                  question.type === "checkbox"
-                                    ? Object.entries(
-                                        question.answer.options
-                                      ).map((key, index) => {
-                                        return (
-                                          <CMSChoice
-                                            name={question.id}
-                                            value={key[1]}
-                                            label={key[0]}
-                                            type={question.type}
-                                            onChange={this.handleChange}
-                                            answer={question.answer.entry}
-                                            conditional={question.conditional}
-                                            children={question.questions}
-                                            valueFromParent={
-                                              this.state[question.id]
-                                            }
-                                          />
-                                        );
-                                      })
-                                    : null}
-                                  {/* If textarea */}
-                                  {question.type === "text_long" ||
-                                  question.type === "text_multiline" ? (
-                                    <div>
-                                      <textarea
-                                        class="ds-c-field"
-                                        name={question.id}
-                                        value={question.answer.entry}
-                                        type="text"
-                                        name={question.id}
-                                        rows="6"
-                                      />
-                                    </div>
-                                  ) : null}
-                                  {/* If FPL Range */}
-                                  {question.type === "ranges" ? (
-                                    <div>
-                                      <FPL label={question.label} />
-                                    </div>
-                                  ) : null}
-                                </fieldset>
-                              </div>
-                            </div>
-                          </AccordionPanel>
-                        ) : null}
-                      </>
-                    ))}
+                    <AccordionPanel>
+                      <QuestionComponent data={goals.questions} />
+                    </AccordionPanel>
                   </AccordionItem>
                 ))}
               </Accordion>
@@ -133,7 +76,6 @@ class Objective2bApi extends Component {
                     <AccordionItem key={goals.id}>
                       <div className="accordion-header">
                         <h3>
-                          {console.log("GoalsLoop")}
                           <AccordionButton>
                             <div className="accordion-title">
                               Goal{" "}

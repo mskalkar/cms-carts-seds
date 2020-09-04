@@ -6,7 +6,7 @@ import { TextField, ChoiceList } from "@cmsgov/design-system-core";
 import DateRange from "../layout/DateRange";
 import CMSRanges from "./CMSRanges";
 import { setAnswerEntry } from "../../actions/initial";
-import { selectQuestionsForPart } from "../../store/selectors";
+import { selectQuestionsForPart, selectQuestion } from "../../store/selectors";
 
 class QuestionComponent extends Component {
   constructor(props) {
@@ -21,6 +21,7 @@ class QuestionComponent extends Component {
     this.handleIntegerChange = this.handleIntegerChange.bind(this);
     this.updateLocalStateOnly = this.updateLocalStateOnly.bind(this);
     this.validatePhone = this.validatePhone.bind(this);
+    this.buildSynthesizedValue = this.buildSynthesizedValue.bind(this);
   }
 
   validatePercentage(evt) {
@@ -54,12 +55,20 @@ class QuestionComponent extends Component {
   }
 
   handleIntegerChange(evt) {
-    const validNumberRegex = RegExp("^(?:d{1,3}(?:,d{3})*|d+)(?:.d+)?$");
+    const validNumberRegex = RegExp(/^(?:\d{1,3}(?:,\d{3})*|\d+)(?:\.\d+)?$/);
+
     if (evt.target.value.length > 0) {
       if (validNumberRegex.test(evt.target.value)) {
+        let formattedNum = evt.target.value.replace(/[ ,]/g, "");
+        this.props.setAnswer(evt.target.name, formattedNum);
+        this.setState({
+          [evt.target.name]: evt.target.value ? evt.target.value : null,
+
+          [evt.target.name + "Err"]: validNumberRegex.test(evt.target.value),
+        });
       } else {
         this.setState({
-          [evt.target.name + "Err"]: !validNumberRegex.test(evt.target.value),
+          [evt.target.name + "Err"]: validNumberRegex.test(evt.target.value),
         });
       }
     }
@@ -106,11 +115,11 @@ class QuestionComponent extends Component {
   }
 
   handleChange(evt) {
-    this.props.setAnswer(evt.target.name, evt);
-    this.setState({ [evt.target.name]: evt.target.value });
+    this.props.setAnswer(evt.target.name, evt.target.value);
   }
 
   handleChangeArray(evtArray) {
+    this.props.setAnswer(evtArray[0], evtArray[1]);
     this.setState({
       [evtArray[0]]: evtArray[1] ? evtArray[1] : null,
       [evtArray[0] + "Mod"]: true,
@@ -123,6 +132,20 @@ class QuestionComponent extends Component {
     });
   };
 
+  buildSynthesizedValue = (question) => {
+    const numerator = selectQuestion(
+      this.props.data,
+      question.fieldset_info.targets[0].split("'")[1]
+    );
+    const denominator = selectQuestion(
+      this.props.data,
+      question.fieldset_info.targets[1].split("'")[1]
+    );
+    console.log("numerator", numerator);
+    console.log("denominator", denominator);
+    return "";
+  };
+
   render() {
     return (
       <>
@@ -133,19 +156,20 @@ class QuestionComponent extends Component {
               <legend className="ds-c-label">
                 <CMSLegend id={question.id} label={question.label} />
               </legend>
-              {question.type === "radio" || question.type === "checkbox"
-                ? Object.entries(question.answer.options).map((key, index) => {
+              {question.type === "radio"
+                ? question.answer.options.map(({ label, value }, index) => {
                     return (
                       <CMSChoice
                         name={question.id}
-                        value={key[1]}
-                        label={key[0]}
+                        value={value}
+                        label={label}
                         type={question.type}
                         answer={question.answer.entry}
                         conditional={question.conditional}
                         children={question.questions}
                         valueFromParent={this.state[question.id]}
                         onChange={this.handleChangeArray}
+                        key={index}
                         setAnswer={this.props.setAnswer}
                         disabled={question.answer.readonly}
                         disabledFromParent={question.answer.readonly}
@@ -155,12 +179,12 @@ class QuestionComponent extends Component {
                 : null}
 
               {question.type === "checkbox"
-                ? Object.entries(question.answer.options).map((key, index) => {
+                ? question.answer.options.map(({ label, value }, index) => {
                     return (
                       <CMSChoice
                         name={question.id}
-                        value={key[1]}
-                        label={key[0]}
+                        value={value}
+                        label={label}
                         type={question.type}
                         answer={question.answer.entry}
                         conditional={question.conditional}
@@ -239,18 +263,11 @@ class QuestionComponent extends Component {
               {question.type === "text_multiline" ||
               question.type === "mailing_address" ? (
                 <div>
-                  {
-                    (console.log("qid", question.id),
-                    console.log("answer", question.answer.entry))
-                  }
                   <TextField
-                    label=""
                     className="ds-c-input"
+                    label=""
                     multiline
-                    value={question.answer.entry || ""}
-                    type="text"
                     name={question.id}
-                    rows="6"
                     onChange={this.handleChange}
                     rows={6}
                     type="text"
@@ -267,17 +284,20 @@ class QuestionComponent extends Component {
 
               {/* If integer*/}
               {question.type === "integer" ? (
-                <TextField
-                  name={question.id}
-                  className="ds-c-input"
-                  label=""
-                  value={
-                    this.state[question.id] || this.state[question.id + "Mod"]
-                      ? this.state[question.id]
-                      : question.answer.entry
-                  }
-                  onChange={this.handleIntegerChange}
-                />
+                <>
+                  {console.log(question.id, question.answer.entry)}
+                  <TextField
+                    name={question.id}
+                    className="ds-c-input"
+                    label=""
+                    value={
+                      this.state[question.id] || this.state[question.id + "Mod"]
+                        ? this.state[question.id]
+                        : question.answer.entry
+                    }
+                    onChange={this.handleIntegerChange}
+                  />
+                </>
               ) : null}
 
               {/* If file upload */}
@@ -398,20 +418,13 @@ class QuestionComponent extends Component {
               question.type !== "checkbox" ? (
                 <QuestionComponent
                   subquestion={true}
+                  setAnswer={this.props.setAnswer}
                   data={question.questions} //Array of subquestions to map through
                 />
               ) : null}
 
               {/*Children of radio and checkboxes are handled in their respective sections (above)*/}
-              {question.questions &&
-              question.type !== "fieldset" &&
-              question.type !== "radio" &&
-              question.type !== "checkbox" ? (
-                <QuestionComponent
-                  subquestion={true}
-                  data={question.questions} //Array of subquestions to map through
-                />
-              ) : null}
+
               {question.type === "fieldset" &&
               question.fieldset_type === "noninteractive_table" ? (
                 <table className="ds-c-table" width="100%">
@@ -450,13 +463,36 @@ class QuestionComponent extends Component {
                   })}
                 </table>
               ) : null}
+
+              {question.type === "fieldset" &&
+              question.fieldset_type === "synthesized_value" ? (
+                <>
+                  {console.log(
+                    "selectQuestion",
+                    selectQuestion(
+                      this.props.data,
+                      question.fieldset_info.targets[0].split("'")[1]
+                    )
+                  )}
+                  <TextField
+                    name={question.id}
+                    className="ds-c-input"
+                    label="Calculated field from #"
+                    value={this.buildSynthesizedValue(question)}
+                  />
+                </>
+              ) : null}
+
               {question.questions && question.type === "fieldset" ? (
                 <div className="cmsfieldset">
                   {
-                    <QuestionComponent
-                      data={question.questions} //Array of subquestions to map through
-                      setAnswer={this.props.setAnswer}
-                    />
+                    (console.log("data to QC", question.questions),
+                    (
+                      <QuestionComponent
+                        data={question.questions} //Array of subquestions to map through
+                        setAnswer={this.props.setAnswer}
+                      />
+                    ))
                   }
                 </div>
               ) : null}

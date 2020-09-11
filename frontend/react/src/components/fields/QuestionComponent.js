@@ -5,7 +5,7 @@ import CMSLegend from "./CMSLegend";
 import { Alert, TextField, ChoiceList } from "@cmsgov/design-system-core";
 import DateRange from "../layout/DateRange";
 import CMSRanges from "./CMSRanges";
-import { setAnswerEntry } from "../../actions/initial";
+import { setAnswerEntry } from "../../store/actions/initial";
 import { selectQuestionsForPart } from "../../store/selectors";
 
 class QuestionComponent extends Component {

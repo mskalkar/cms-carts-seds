@@ -1,22 +1,22 @@
-import { LOAD_SECTIONS, QUESTION_ANSWERED } from "../actions/initial";
+import { LOAD_SECTIONS, QUESTION_ANSWERED } from "../store/actions/initial";
 import jsonpath from "../util/jsonpath";
 import { _ } from "underscore";
 import { selectQuestion } from "./selectors";
 
-const initialState = [];
+// const initialState = [];
 
-export default (sdata = initialState, action) => {
-  switch (action.type) {
-    case LOAD_SECTIONS:
-      return action.data;
-    case QUESTION_ANSWERED:
-      const fragment = selectQuestion({ formData: sdata }, action.fragmentId);
-      fragment.answer.entry = action.data;
-      return JSON.parse(JSON.stringify(sdata));
-    default:
-      return sdata;
-  }
-};
+// export default (sdata = initialState, action) => {
+//   switch (action.type) {
+//     case LOAD_SECTIONS:
+//       return action.data;
+//     case QUESTION_ANSWERED:
+//       const fragment = selectQuestion({ formData: sdata }, action.fragmentId);
+//       fragment.answer.entry = action.data;
+//       return JSON.parse(JSON.stringify(sdata));
+//     default:
+//       return sdata;
+//   }
+// };
 
 /* Helper functions for getting values from the JSON returned by the API */
 export const selectSectionByOrdinal = (state, ordinal) => {

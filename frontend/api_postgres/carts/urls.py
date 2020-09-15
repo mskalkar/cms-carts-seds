@@ -45,6 +45,8 @@ api_patterns = [
          views.generic_fragment_by_id),
     path("appusers/<slug:username>",
          views.fake_user_data),
+    path("test/post-something",
+         views.post_something),
 ]
 
 urlpatterns = [

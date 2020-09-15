@@ -233,6 +233,10 @@ def generic_fragment_by_id(request, id):
         serializer = SectionBaseSerializer(data)
         return Response(serializer.data)
 
+@api_view(["POST"])
+def post_something(request):
+    return Response("posted")
+
 
 class SectionBaseViewSet(viewsets.ModelViewSet):
     """

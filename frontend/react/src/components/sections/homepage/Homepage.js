@@ -2,9 +2,14 @@ import React, { Component } from "react";
 import ReportItem from "./ReportItem";
 import { DownloadDrawer } from "./DownloadDrawer";
 
+import axios from "axios";
+
 class Homepage extends Component {
 
+
   render() {
+    axios.post(`${window._env_.API_POSTGRES_URL}/api/v1/test/post-something`);
+
     return (
       <div className="homepage">
         <div className="ds-l-container">

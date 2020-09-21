@@ -5,6 +5,7 @@ import CMSLegend from "./CMSLegend";
 import { Alert, TextField, ChoiceList } from "@cmsgov/design-system-core";
 import DateRange from "../layout/DateRange";
 import CMSRanges from "./CMSRanges";
+import CMSRepeatable from "./CMSRepeatable";
 import { setAnswerEntry } from "../../actions/initial";
 import { selectQuestionsForPart, selectQuestion } from "../../store/selectors";
 
@@ -510,6 +511,7 @@ class QuestionComponent extends Component {
                   data={question.questions} //Array of subquestions to map through
                 />
               ) : null}
+
               {/*Below is required for 2b #3-6 */}
               {question.questions && question.type === "fieldset" ? (
                 <div className="cmsfieldset">
@@ -523,6 +525,7 @@ class QuestionComponent extends Component {
                   }
                 </div>
               ) : null}
+
               {question.questions &&
                 question.type === "fieldset" &&
                 question.context_data &&
@@ -543,6 +546,14 @@ class QuestionComponent extends Component {
                     }
                   </div>
                 ))}
+
+                {question.type === "repeatable" ? (
+                  <CMSRepeatable 
+                    subquestion={false}
+                    setAnswer={this.props.setAnswer}
+                    data={question.questions}
+                  />
+                ) : null}
             </fieldset>
           </div>
         ))}

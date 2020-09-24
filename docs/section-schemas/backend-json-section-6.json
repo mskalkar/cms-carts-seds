@@ -50,7 +50,7 @@
                  },
               {
                 "id": "2020-06-a-01-05",
-                "label": "Anything else you’d like to add about your state’s challenges and accomplishments?",
+                "label": "Is there anything else you’d like to add about your state’s challenges and accomplishments?",
                 "type": "text_multiline",
                 "answer": {
                   "entry": null

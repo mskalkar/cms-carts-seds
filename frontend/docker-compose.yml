@@ -4,13 +4,20 @@ services:
     build:
       context: ./react
       dockerfile: Dockerfile
+      target: dev
     ports:
-      - "81:80"
+      - "81:3000"
     networks:
       - data_net
     environment:
+      - CHOKIDAR_USEPOLLING=true
+      - CHOKIDAR_INTERVAL=3000
       - API_POSTGRES_URL=http://localhost:8000 # This is how a browser would call the api
       - API_SQLSERVER_URL=http://localhost:8001 # This is how a browser would call the api
+    stdin_open: true
+    volumes:
+      - ./react:/app
+      - /app/node_modules
   api_postgres:
     build:
       context: ./api_postgres
